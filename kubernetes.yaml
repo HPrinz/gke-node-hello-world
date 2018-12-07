@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hello-node-deployment
+spec:
+  template:
+    metadata:
+      labels:
+        app: hellonode
+    spec:
+      containers:
+      - name: hello-node-container
+        image: gcr.io/hanna-prinz/hellonode
+        imagePullPolicy: Always
+        ports:
+        - name: http-server
+          containerPort: 3000
+        env:
+          - name: PROJECT_ID
+            value: hellonode
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hellonode
+  labels:
+    app: hellonode
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: http-server
+  selector:
+    app: hellonode
