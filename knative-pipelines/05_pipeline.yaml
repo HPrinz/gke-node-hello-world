@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   tasks:
-  - name: build-hellonode
+  - name: build-hellonode-app
     taskRef:
       name: build-push
     params:
@@ -13,17 +13,17 @@ spec:
       value: Dockerfile
     - name: pathToContext
       value: /workspace
-  - name: deploy-hellonode
+  - name: deploy-hellonode-app
     taskRef:
       name: hellonode-deploy-kubectl
     resources:
     - name: image
       providedBy:
-      - build-hellonode
+      - build-hellonode-app
     params:
     - name: path
       value: /workspace/kubernetes.yaml
     - name: yqArg
-      value: "-d1"
+      value: "-d0"
     - name: yamlPathToImage
       value: "spec.template.spec.containers[0].image"
