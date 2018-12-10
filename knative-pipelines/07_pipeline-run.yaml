@@ -1,0 +1,33 @@
+apiVersion: pipeline.knative.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: hellonode-pipeline-run-1
+  namespace: default
+spec:
+  pipelineRef:
+    name: hellonode-pipeline
+  triggerRef:
+    type: manual
+  serviceAccount: 'default'
+  results:
+    type: 'gcs'
+    url: 'gcs://pipelines-logs/logs'
+  resources:
+  - name: build-hellonode-app
+    inputs:
+    - name: workspace
+      resourceRef:
+        name: hellonode-app-git
+    outputs:
+    - name: builtImage
+      resourceRef:
+        name: hellonode-app-image
+  - name: deploy-hellonode-app
+    inputs:
+    - name: workspace
+      resourceRef:
+        name: hellonode-app-git
+    - name: image
+      resourceRef:
+        name: hellonode-app-image
+  

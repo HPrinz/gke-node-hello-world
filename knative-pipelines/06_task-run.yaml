@@ -1,0 +1,28 @@
+apiVersion: pipeline.knative.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: build-push-run
+spec:
+  taskRef:
+    name: build-push
+  trigger:
+    triggerRef:
+      type: manual
+  results:
+    type: 'gcs'
+    url: 'gcs://pipelines-logs/logs'
+  inputs:
+    resources:
+    - name: workspace
+      resourceRef:
+        name: hellonode-app-git
+    params:
+    - name: pathToDockerFile
+      value: Dockerfile
+    - name: pathToContext
+      value: /workspace
+  outputs:
+    resources:
+    - name: builtImage
+      resourceRef:
+        name: hellonode-app-image

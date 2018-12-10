@@ -1,0 +1,23 @@
+apiVersion: pipeline.knative.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: hellonode-app-git
+  namespace: default
+spec:
+  type: git
+  params:
+  - name: revision
+    value: master
+  - name: url
+    value: https://github.com/HPrinz/gke-node-hello-world.git
+---        
+apiVersion: pipeline.knative.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: hellonode-app-image
+  namespace: default
+spec:        
+  type: image
+  params:
+  - name: url
+    value: gcr.io/hanna-prinz/hellonode

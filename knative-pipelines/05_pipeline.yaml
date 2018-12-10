@@ -1,0 +1,29 @@
+apiVersion: pipeline.knative.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: hellonode-pipeline
+  namespace: default
+spec:
+  tasks:
+  - name: build-hellonode
+    taskRef:
+      name: build-push
+    params:
+    - name: pathToDockerFile
+      value: Dockerfile
+    - name: pathToContext
+      value: /workspace
+  - name: deploy-hellonode
+    taskRef:
+      name: hellonode-deploy-kubectl
+    resources:
+    - name: image
+      providedBy:
+      - build-hellonode
+    params:
+    - name: path
+      value: /workspace/kubernetes.yaml
+    - name: yqArg
+      value: "-d1"
+    - name: yamlPathToImage
+      value: "spec.template.spec.containers[0].image"
