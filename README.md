@@ -76,6 +76,11 @@ Umfang:
 - commit der images auf die Google Container Registry
 - deploy auf das GKE-Cluster
 
+Todo:
+
+- Pipeline bei jedem commit triggern ([Knative Eventing](https://github.com/knative/docs/tree/master/eventing))
+- Transparenz/Notifications
+
 Schritte:
 
 - ersetzte  `<your-project>` mit der Google Cloud Projekt ID in `knative-pipelines/02_resources.yaml` 
