@@ -3,8 +3,6 @@ WORKDIR /build
 COPY package*.json ./
 RUN npm install && npm install -g jest
 COPY . .
-
-FROM base as deps
 ENV NODE_ENV test
 RUN npm test
 
