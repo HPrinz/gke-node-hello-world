@@ -1,7 +1,7 @@
 FROM node:latest as base
 WORKDIR /build
 COPY package*.json ./
-RUN npm install
+RUN npm install && npm install -g jest
 COPY . .
 
 FROM base as deps
